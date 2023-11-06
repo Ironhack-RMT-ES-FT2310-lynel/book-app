@@ -48,7 +48,7 @@ router.get("/create", (req, res, next) => {
 
 })
 
-// GET "/book/create-book" => crear el libro en la DB y hacer algo con el usuario
+// GET "/book/create-book" => crear el libro en la DB con la informacion del formulario y redireccionar al usuario
 router.post("/create", (req, res, next) => {
 
   console.log(req.body)
@@ -72,6 +72,55 @@ router.post("/create", (req, res, next) => {
 
 })
 
+
+// GET "/book/:bookId/edit" => renderizar formulario de editar un libro con la informacion actual
+router.get("/:bookId/edit", async (req, res, next) => {
+
+  try {
+    // buscar los datos actuales de este libro y pasarlos a la renderización
+    const bookToEdit = await Book.findById(req.params.bookId)
+  
+    res.render("book/edit-form.hbs", {
+      // bookToEdit: bookToEdit
+      bookToEdit
+    })
+
+  } catch(err) {
+    next(err)
+  }
+
+})
+
+
+// POST "/book/:bookId/edit" => edita el libro en la DB con a informacion del formulario y redirecciona al usuario
+router.post("/:bookId/edit", async (req, res, next) => {
+
+  // const {bookId} = req.params
+  // const {title, description, author} = req.body
+  
+  try {
+    
+    // con destructuración
+    // const response = await Book.findByIdAndUpdate(bookId, { title, description, author })
+
+    // req.params.bookId
+    // req.body
+    // findByIdAndUpdate
+    
+    // sin destructuración
+    const response = await Book.findByIdAndUpdate(req.params.bookId, {
+      title: req.body.title,
+      description: req.body.description,
+      author: req.body.author
+    })
+
+    res.redirect(`/book/${req.params.bookId}/details`)
+
+  } catch (err) {
+    next(err)
+  }
+
+})
 
 
 // 2. debemos exportar el objeto de router
