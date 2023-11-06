@@ -41,6 +41,37 @@ router.get("/:bookId/details", async (req, res, next) => {
 })
 
 
+// GET "/book/create-form" => renderizar un formulario para crear libros
+router.get("/create", (req, res, next) => {
+
+  res.render("book/add-form.hbs")
+
+})
+
+// GET "/book/create-book" => crear el libro en la DB y hacer algo con el usuario
+router.post("/create", (req, res, next) => {
+
+  console.log(req.body)
+  // req.body es un objeto que almacena y transmite data (json) en llamadas de tipo POST. LO QUE VIENE DEL FORMULARIO.
+
+  // const { title, description, author } = req.body
+
+  // 1. crear el libro con la info del req.body
+  Book.create({
+    title: req.body.title,
+    description: req.body.description,
+    author: req.body.author
+  })
+  .then(() => {
+    // 2. redireccionar al usuario a otra pagina
+    res.redirect("/book")
+  })
+  .catch((err) => {
+    next(err)
+  })
+
+})
+
 
 
 // 2. debemos exportar el objeto de router
