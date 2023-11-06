@@ -122,6 +122,19 @@ router.post("/:bookId/edit", async (req, res, next) => {
 
 })
 
+// POST "/book/:bookId/delete" => borrar un libro por su id y redireccionar al usuario
+router.post("/:bookId/delete", (req, res, next) => {
+
+  console.log("borrando libro", req.params.bookId)
+  Book.findByIdAndDelete(req.params.bookId)
+  .then(() => {
+    res.redirect("/book")
+  })
+  .catch((err) => {
+    next(err)
+  })
+})
+
 
 // 2. debemos exportar el objeto de router
 module.exports = router;
