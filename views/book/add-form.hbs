@@ -1,38 +1,43 @@
-<div>
+<div class="d-flex flex-column align-items-center">
 
   <h3>Formulario para crear libros</h3>
 
   <form action="/book/create" method="post">
 
-    <label for="title">Titulo</label>
-    <input type="text" name="title" >
-    {{!-- el name del input deberia ser igual a la propiedad del modelo --}}
+    <div class="mb-3">
+      <label class="form-label" for="title">Titulo</label>
+      <input class="form-control" type="text" name="title" >
+      {{!-- el name del input deberia ser igual a la propiedad del modelo --}}
+    </div>
 
-    <br>
+    <div class="mb-3">
+      <label class="form-label" for="description">Descripción</label>
+      <input class="form-control" type="text" name="description">
+    </div>
 
-    <label for="description">Descripción</label>
-    <input type="text" name="description">
 
-    <br>
+    <div class="mb-3">
 
-    <label for="author">Autor</label>
-    {{!-- <input type="text" name="author"> --}}
+      <label class="form-label" for="author">Autor</label>
+      {{!-- <input type="text" name="author"> --}}
 
-    {{!-- {{this.allAuthors}} --}}
+      {{!-- {{this.allAuthors}} --}}
 
-    <select name="author" multiple>
+      <select class="form-select" name="author" multiple>
 
-      {{#each this.allAuthors}}
+        {{#each this.allAuthors}}
 
-        <option value="{{this._id}}">{{this.name}}</option>
+          <option value="{{this._id}}">{{this.name}}</option>
 
-      {{/each}}
+        {{/each}}
 
-    </select>
+      </select>
 
-    <br>
+    </div>
 
-    <button type="submit">Agregar</button>
+    <div class="d-grid gap-2">
+      <button class="btn btn-primary my-btn" type="submit">Agregar</button>
+    </div>
 
   </form>
 
