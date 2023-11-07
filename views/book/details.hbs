@@ -7,7 +7,16 @@
     <h4>{{this.oneBook.title}}</h4>
     <p>{{this.oneBook.description}}
     </p>
-    <p>Autor: {{this.oneBook.author}}</p>
+    {{!-- <p>Autor: {{this.oneBook.author.name}} nacido en {{this.oneBook.author.country}} en año {{this.oneBook.author.yearBorn}} </p> --}}
+
+    {{#each this.oneBook.author}}
+      <p>Autor: {{this.name}} nacido en {{this.country}} en año {{this.yearBorn}} </p>
+    {{/each}}
+
+
+    {{!-- {{#with this.oneBook.author}}
+      <p>Autor: {{name}} nacido en {{country}} en año {{yearBorn}} </p>
+    {{/with}} --}}
 
     <a href="/book/{{this.oneBook._id}}/edit">
       <button>Ir a editar</button>

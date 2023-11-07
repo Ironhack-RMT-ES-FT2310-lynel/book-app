@@ -16,7 +16,21 @@
     <br>
 
     <label for="author">Autor</label>
-    <input type="text" name="author" value="{{this.bookToEdit.author}}">
+    {{!-- <input type="text" name="author" value="{{this.bookToEdit.author}}"> --}}
+
+    <select name="author">
+
+      <option value="{{this.bookToEdit.author._id}}" selected>{{this.bookToEdit.author.name}}</option>
+
+      <option disabled> -------------- </option>
+
+      {{#each this.allAuthors}}
+        
+        <option value="{{this._id}}">{{this.name}}</option>
+
+      {{/each}}
+
+    </select>
 
     <br>
 

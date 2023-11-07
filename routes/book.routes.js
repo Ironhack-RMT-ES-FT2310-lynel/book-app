@@ -5,6 +5,7 @@ const express = require('express');
 const router = express.Router();
 
 const Book = require('../models/Book.model');
+const Author = require("../models/Author.model.js")
 
 // GET "/book" => renderizar los titulos de los libros
 router.get("/", async (req, res, next) => {
@@ -26,9 +27,13 @@ router.get("/:bookId/details", async (req, res, next) => {
 
   try {
 
-    const response = await Book.findById(req.params.bookId)
+    const response = await Book.findById(req.params.bookId).populate("author")
+    // * populate es: busca el documento con el id de esta relacion, y devuelveme toda la informacion del documento. Lo que agregagamos dentro del populate es el nombre de propiedad que tiene una relación
     console.log(req.params.bookId)
     console.log(response)
+
+    // const response2 = await Author.findById(response.author)
+    // console.log(response2)
 
     res.render("book/details.hbs", {
       oneBook: response
@@ -42,9 +47,19 @@ router.get("/:bookId/details", async (req, res, next) => {
 
 
 // GET "/book/create-form" => renderizar un formulario para crear libros
-router.get("/create", (req, res, next) => {
+router.get("/create", async (req, res, next) => {
 
-  res.render("book/add-form.hbs")
+  try {
+
+    const response = await Author.find().select({name: 1})
+
+    res.render("book/add-form.hbs", {
+      allAuthors: response
+    })
+  } catch(err) {
+    next(err)
+  }
+
 
 })
 
@@ -78,11 +93,13 @@ router.get("/:bookId/edit", async (req, res, next) => {
 
   try {
     // buscar los datos actuales de este libro y pasarlos a la renderización
-    const bookToEdit = await Book.findById(req.params.bookId)
+    const bookToEdit = await Book.findById(req.params.bookId).populate("author")
+    const allAuthors = await Author.find().select({name:1})
   
     res.render("book/edit-form.hbs", {
       // bookToEdit: bookToEdit
-      bookToEdit
+      bookToEdit,
+      allAuthors
     })
 
   } catch(err) {
